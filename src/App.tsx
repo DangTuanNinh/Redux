@@ -1,8 +1,9 @@
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import "./App.css";
+// import "./App.css";
 import { decrease, increment } from "./redux/counter/counterSlice";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import Button from "react-bootstrap/Button";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
+      <Button variant="danger">Test boostrap</Button>
       <div>
         <h1>My current = {count.value}</h1>
 
