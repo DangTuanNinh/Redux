@@ -27,7 +27,14 @@ function App() {
 
         <div>
           <button onClick={() => dispatch(increment())}>Increase +1</button>
-          <button onClick={() => dispatch(decrease())}>Decrease -1</button>
+          <button
+            onClick={() => {
+              console.log(">>Check dispatch: 1111");
+              dispatch(decrease());
+            }}
+          >
+            Decrease -1
+          </button>
         </div>
       </div>
     </>
