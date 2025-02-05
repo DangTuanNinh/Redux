@@ -4,6 +4,9 @@ import viteLogo from "/vite.svg";
 import { decrease, increment } from "./redux/counter/counterSlice";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import Button from "react-bootstrap/Button";
+import Header from "./components/header";
+import TabsContent from "./components/tabs.content";
+import UserTable from "./components/user.table";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -15,30 +18,8 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <Button variant="danger">Test boostrap</Button>
-      <div>
-        <h1>My current = {count.value}</h1>
-
-        <div>
-          <button onClick={() => dispatch(increment())}>Increase +1</button>
-          <button
-            onClick={() => {
-              console.log(">>Check dispatch: 1111");
-              dispatch(decrease());
-            }}
-          >
-            Decrease -1
-          </button>
-        </div>
-      </div>
+      <Header />
+      <TabsContent />
     </>
   );
 }
