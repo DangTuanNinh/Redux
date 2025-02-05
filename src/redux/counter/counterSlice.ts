@@ -25,6 +25,7 @@ export const counterSlice = createSlice({
       state.value += 1;
     },
     decrease: (state) =>{
+      console.log("Check decrease: 1111");
       state.value -= 1;
     }
   },
