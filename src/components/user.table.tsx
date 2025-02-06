@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { fetchListUser } from "../redux/user/user.slice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { toast } from "react-toastify";
 
 function UserTable() {
   // const fetchUsers = async () => {
@@ -20,6 +21,7 @@ function UserTable() {
 
   useEffect(() => {
     dispatch(fetchListUser());
+    toast("🦄 Wow so easy!");
   }, []);
 
   return (
