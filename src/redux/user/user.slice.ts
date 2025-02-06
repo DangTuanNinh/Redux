@@ -1,6 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface IUser {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const initialState: {
+  listUser: IUser[];
+} = {
   listUser: [],
 };
 
@@ -20,7 +28,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchListUser.fulfilled, (state, action) => {
       // reduce the collection by the id property into a shape of { 1: { ...user }}
-
+      state.listUser = action.payload;
       console.log(">>Check action:", action);
     });
   },
