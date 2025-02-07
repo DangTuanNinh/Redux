@@ -21,6 +21,28 @@ export const fetchListUser = createAsyncThunk(
   }
 );
 
+interface IUserPayload {
+  email: string;
+  name: string;
+}
+
+export const createNewUser = createAsyncThunk(
+  "users/createNewUser",
+  async (payload: IUserPayload, thunkAPI) => {
+    console.log(">.Check userID: ", payload);
+    const res = await fetch("http://localhost:8000/users", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(">>Check data: ", data);
+    return data;
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
