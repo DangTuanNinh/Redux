@@ -7,9 +7,7 @@ function Header() {
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">
-          Navbar with text {users.length}
-        </Navbar.Brand>
+        <Navbar.Brand href="#home">Header {users.length}</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
