@@ -8,8 +8,10 @@ interface IUser {
 
 const initialState: {
   listUser: IUser[];
+  isCreateSuccess: boolean;
 } = {
   listUser: [],
+  isCreateSuccess: false,
 };
 
 export const fetchListUser = createAsyncThunk(
@@ -38,6 +40,9 @@ export const createNewUser = createAsyncThunk(
       },
     });
     const data = await res.json();
+    if (data && data.id) {
+      thunkAPI.dispatch(fetchListUser());
+    }
     console.log(">>Check data: ", data);
     return data;
   }
@@ -46,17 +51,25 @@ export const createNewUser = createAsyncThunk(
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    resetCreate(state) {
+      state.isCreateSuccess = false;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchListUser.fulfilled, (state, action) => {
       // reduce the collection by the id property into a shape of { 1: { ...user }}
       state.listUser = action.payload;
       console.log(">>Check action:", action);
     });
+    builder.addCase(createNewUser.fulfilled, (state, action) => {
+      // reduce the collection by the id property into a shape of { 1: { ...user }}
+      state.isCreateSuccess = true;
+    });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = userSlice.actions;
+export const { resetCreate } = userSlice.actions;
 
 export default userSlice.reducer;
