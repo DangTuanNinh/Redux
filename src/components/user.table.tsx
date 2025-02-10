@@ -5,19 +5,12 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { toast } from "react-toastify";
 import { Button } from "react-bootstrap";
 import UserCreateModal from "./modal/user.create.modal";
+import UserEditModal from "./modal/user.edit.modal";
 
 function UserTable() {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
-
-  // const fetchUsers = async () => {
-  //   const res = await fetch("http://localhost:8000/users");
-  //   const data = await res.json();
-  //   setUsers(data);
-  // };
-
-  // useEffect(() => {
-  //   fetchUsers();
-  // }, []);
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const dispatch = useAppDispatch();
 
@@ -30,6 +23,11 @@ function UserTable() {
 
   const handleClick = () => {
     setIsOpenCreateModal(true);
+  };
+
+  const handleEditClick = (user: any) => {
+    setSelectedUser(user);
+    setIsOpenUpdateModal(true);
   };
 
   return (
@@ -64,7 +62,11 @@ function UserTable() {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>
-                  <Button variant="warning" style={{ marginRight: "10px" }}>
+                  <Button
+                    variant="warning"
+                    style={{ marginRight: "10px" }}
+                    onClick={() => handleEditClick(user)}
+                  >
                     Edit
                   </Button>
                   <Button variant="danger">Delete</Button>
@@ -78,6 +80,12 @@ function UserTable() {
       <UserCreateModal
         isOpenCreateModal={isOpenCreateModal}
         setIsOpenCreateModal={setIsOpenCreateModal}
+      />
+
+      <UserEditModal
+        isOpenUpdateModal={isOpenUpdateModal}
+        setIsOpenUpdateModal={setIsOpenUpdateModal}
+        user={selectedUser}
       />
     </>
   );

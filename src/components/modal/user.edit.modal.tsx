@@ -1,20 +1,88 @@
-// import React from "react";
-// import { Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  createNewUser,
+  resetCreate,
+  updateAUser,
+} from "../../redux/user/user.slice";
+import { toast } from "react-toastify";
 
-// const UserCreteModal = () => {
-//   const
-//   return (
-//     <>
-//       <Button variant="primary" onClick={() => setModalShow(true)}>
-//         Launch vertically centered modal
-//       </Button>
+const UserEditModal = (prop: any) => {
+  const { isOpenUpdateModal, setIsOpenUpdateModal, user } = prop;
+  const dispatch = useAppDispatch();
 
-//       <MyVerticallyCenteredModal
-//         show={modalShow}
-//         onHide={() => setModalShow(false)}
-//       />
-//     </>
-//   );
-// };
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const isUpdateSuccess = useAppSelector((state) => state.user.isUpdateSuccess);
 
-// export default UserCreteModal;
+  useEffect(() => {
+    if (isUpdateSuccess === true) {
+      setIsOpenUpdateModal(false);
+      setEmail("");
+      setName("");
+      toast("🦄 Wow so easy!");
+      dispatch(resetCreate());
+    }
+  }, [isUpdateSuccess]);
+
+  const handleSubmit = () => {
+    if (!email) {
+      alert("Please enter email");
+      return;
+    }
+    console.log(">>Check create: ", email, name);
+    dispatch(updateAUser({ email, name, id: user.id }));
+  };
+
+  return (
+    <>
+      <Modal
+        show={isOpenUpdateModal}
+        onHide={() => setIsOpenUpdateModal(false)}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add a user</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="Email"
+            className="mb-3"
+          >
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="name@example.com"
+            />
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="Name"
+            className="mb-3"
+          >
+            <Form.Control
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="name@example.com"
+            />
+          </FloatingLabel>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="warning" onClick={() => setIsOpenUpdateModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={() => handleSubmit()}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+export default UserEditModal;

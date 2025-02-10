@@ -1,18 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+const initialState: {
+  listUser: IUser[];
+  isCreateSuccess: boolean;
+  isUpdateSuccess: boolean;
+} = {
+  listUser: [],
+  isCreateSuccess: false,
+  isUpdateSuccess: false,
+};
+
 interface IUser {
   id: number;
   name: string;
   email: string;
 }
-
-const initialState: {
-  listUser: IUser[];
-  isCreateSuccess: boolean;
-} = {
-  listUser: [],
-  isCreateSuccess: false,
-};
 
 export const fetchListUser = createAsyncThunk(
   "users/fetchListUser",
@@ -48,6 +50,29 @@ export const createNewUser = createAsyncThunk(
   }
 );
 
+export const updateAUser = createAsyncThunk(
+  "users/updateAUser",
+  async (payload: any, thunkAPI) => {
+    console.log(">.Check userID: ", payload);
+    const res = await fetch(`http://localhost:8000/users/${payload.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        email: payload.email,
+        name: payload.name,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    if (data && data.id) {
+      thunkAPI.dispatch(fetchListUser());
+    }
+    console.log(">>Check data: ", data);
+    return data;
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -65,6 +90,10 @@ export const userSlice = createSlice({
     builder.addCase(createNewUser.fulfilled, (state, action) => {
       // reduce the collection by the id property into a shape of { 1: { ...user }}
       state.isCreateSuccess = true;
+    });
+    builder.addCase(updateAUser.fulfilled, (state, action) => {
+      // reduce the collection by the id property into a shape of { 1: { ...user }}
+      state.isUpdateSuccess = true;
     });
   },
 });
