@@ -2,12 +2,19 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { changeMode } from "../redux/app/app.slice";
 
 function Header() {
   const mode = useAppSelector((state) => state.app.mode);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (body) {
+      body.setAttribute("data-bs-theme", mode);
+    }
+  }, [mode]);
 
   return (
     <Navbar className="bg-body-tertiary" data-bs-theme={mode}>
