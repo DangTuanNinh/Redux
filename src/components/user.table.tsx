@@ -102,7 +102,7 @@ function UserTable() {
 
       <UserDeleteModal
         isOpenDeleteModal={isOpenDeleteModal}
-        setIsOpenDeleteModal={setIsOpenUpdateModal}
+        setIsOpenDeleteModal={setIsOpenDeleteModal}
         user={selectedUser}
       />
     </>

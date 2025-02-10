@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   deleteAUser,
   resetDelete,
-  resetUpdate,
 } from "../../redux/user/user.slice";
 import { toast } from "react-toastify";
 
