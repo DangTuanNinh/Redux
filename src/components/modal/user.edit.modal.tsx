@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import {
-  createNewUser,
-  resetCreate,
-  updateAUser,
-} from "../../redux/user/user.slice";
+import { resetUpdate, updateAUser } from "../../redux/user/user.slice";
 import { toast } from "react-toastify";
 
 const UserEditModal = (prop: any) => {
   const { isOpenUpdateModal, setIsOpenUpdateModal, user } = prop;
+  console.log(">>Check user:", user);
   const dispatch = useAppDispatch();
 
   const [email, setEmail] = useState<string>("");
@@ -17,14 +14,19 @@ const UserEditModal = (prop: any) => {
   const isUpdateSuccess = useAppSelector((state) => state.user.isUpdateSuccess);
 
   useEffect(() => {
+    if (user) {
+      setEmail(user.email || "");
+      setName(user.name || "");
+    }
+
     if (isUpdateSuccess === true) {
       setIsOpenUpdateModal(false);
       setEmail("");
       setName("");
       toast("🦄 Wow so easy!");
-      dispatch(resetCreate());
+      dispatch(resetUpdate());
     }
-  }, [isUpdateSuccess]);
+  }, [isUpdateSuccess, user]);
 
   const handleSubmit = () => {
     if (!email) {
@@ -44,7 +46,7 @@ const UserEditModal = (prop: any) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add a user</Modal.Title>
+          <Modal.Title>Update a user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FloatingLabel

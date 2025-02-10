@@ -6,10 +6,12 @@ import { toast } from "react-toastify";
 import { Button } from "react-bootstrap";
 import UserCreateModal from "./modal/user.create.modal";
 import UserEditModal from "./modal/user.edit.modal";
+import UserDeleteModal from "./modal/user.delete.modal";
 
 function UserTable() {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
   const dispatch = useAppDispatch();
@@ -28,6 +30,11 @@ function UserTable() {
   const handleEditClick = (user: any) => {
     setSelectedUser(user);
     setIsOpenUpdateModal(true);
+  };
+
+  const handleDeleteClick = (user: any) => {
+    setSelectedUser(user);
+    setIsOpenDeleteModal(true);
   };
 
   return (
@@ -69,7 +76,12 @@ function UserTable() {
                   >
                     Edit
                   </Button>
-                  <Button variant="danger">Delete</Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteClick(user)}
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             );
@@ -85,6 +97,12 @@ function UserTable() {
       <UserEditModal
         isOpenUpdateModal={isOpenUpdateModal}
         setIsOpenUpdateModal={setIsOpenUpdateModal}
+        user={selectedUser}
+      />
+
+      <UserDeleteModal
+        isOpenDeleteModal={isOpenDeleteModal}
+        setIsOpenDeleteModal={setIsOpenUpdateModal}
         user={selectedUser}
       />
     </>
