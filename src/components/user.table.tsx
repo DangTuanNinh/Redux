@@ -20,7 +20,6 @@ function UserTable() {
 
   useEffect(() => {
     dispatch(fetchListUser());
-    toast("🦄 Wow so easy!");
   }, [dispatch]);
 
   const handleClick = () => {

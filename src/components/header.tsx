@@ -24,12 +24,13 @@ function Header() {
         <Navbar.Collapse className="justify-content-end">
           <Form>
             <Form.Check
-              value={mode}
-              onChange={(e) =>
+              defaultChecked={mode === "light" ? false : true}
+              onChange={(e) => {
+                console.log(">>Check e: ", e);
                 dispatch(
-                  changeMode(e.target.value === "light" ? "dark" : "light")
-                )
-              }
+                  changeMode(e.target.checked === true ? "dark" : "light")
+                );
+              }}
               type="switch"
               id="custom-switch"
               label={
