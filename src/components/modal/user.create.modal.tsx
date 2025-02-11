@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
-import { useAppDispatch } from "../../redux/hooks";
-import { createNewUser } from "../../redux/user/user.slice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { createNewUser, resetCreate } from "../../redux/user/user.slice";
+import { toast } from "react-toastify";
 
 const UserCreateModal = (prop: any) => {
   const { isOpenCreateModal, setIsOpenCreateModal } = prop;
@@ -9,6 +10,17 @@ const UserCreateModal = (prop: any) => {
 
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const isCreateSuccess = useAppSelector((state) => state.user.isCreateSuccess);
+
+  useEffect(() => {
+    if (isCreateSuccess === true) {
+      setIsOpenCreateModal(false);
+      setEmail("");
+      setName("");
+      toast("🦄 Wow so easy!");
+      dispatch(resetCreate());
+    }
+  }, [isCreateSuccess]);
 
   const handleSubmit = () => {
     if (!email) {
